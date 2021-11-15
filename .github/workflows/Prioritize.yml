@@ -29,6 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install virtualenv --user
         pip install -r requirements.txt
+        python setup.py install
     
     - name: WhiteSource Prioritize Scan
       env:
@@ -48,3 +49,22 @@ jobs:
         curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar
         echo Unified Agent downloaded successfully
         java -jar wss-unified-agent.jar -appPath ./requirements.txt -d ./
+        
+    - name: WhiteSource Prioritize Scan 2
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        WS_APIKEY: ${{secrets.APIKEY}}
+        WS_USERKEY: ${{secrets.USERKEY}}
+        WS_WSS_URL: https://app.whitesourcesoftware.com/agent
+        WS_PRODUCTNAME: GH_${{github.event.repository.name}}
+        WS_PROJECTNAME: ${{github.ref}}_Prioritize_2
+        WS_ENABLEIMPACTANALYSIS: true
+        WS_REQUIREKNOWNSHA1: false
+        WS_RESOLVEALLDEPENDENCIES: false
+        WS_PYTHON_RESOLVEDEPENDENCIES: true
+        WS_FILESYSTEMSCAN: false
+        WS_GENERATEPROJECTDETAILSJSON: true
+      run: |
+        curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar
+        echo Unified Agent downloaded successfully
+        java -jar wss-unified-agent.jar -appPath ./setup.py -d ./
