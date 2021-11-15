@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install virtualenv --user
         pip install -r requirements.txt
-        python setup.py install
+        python spinel-cli.py install
     
     - name: WhiteSource Prioritize Scan
       env:
@@ -67,4 +67,4 @@ jobs:
       run: |
         curl -LJO https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar
         echo Unified Agent downloaded successfully
-        java -jar wss-unified-agent.jar -appPath ./setup.py -d ./
+        java -jar wss-unified-agent.jar -appPath ./spinel-cli.py -d ./
